@@ -1,0 +1,97 @@
+{
+    "name": "contenir/seo-laminas-mvc",
+    "description": "Laminas MVC adapter for contenir/seo: /sitemap.xml and /robots.txt from the site's settings, an seo() view helper for titles, share defaults, verification and JSON-LD, and X-Robots-Tag on hidden copies. Replaces contenir/contenir-sitemap-laminas-mvc.",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "contenir",
+        "seo",
+        "sitemap",
+        "robots",
+        "laminas",
+        "mvc"
+    ],
+    "homepage": "https://contenir.com.au",
+    "support": {
+        "issues": "https://github.com/contenir/contenir-seo-laminas-mvc/issues",
+        "source": "https://github.com/contenir/contenir-seo-laminas-mvc"
+    },
+    "require": {
+        "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
+        "contenir/seo": "dev-fix/visibility-without-host as 0.1.x-dev",
+        "laminas/laminas-eventmanager": "^3.14",
+        "laminas/laminas-http": "^2.19",
+        "laminas/laminas-mvc": "^3.8",
+        "laminas/laminas-navigation": "^2.19",
+        "laminas/laminas-router": "^3.13",
+        "laminas/laminas-servicemanager": "^3.22 || ^4.0",
+        "laminas/laminas-view": "^2.35",
+        "psr/container": "^1.1 || ^2.0"
+    },
+    "require-dev": {
+        "contenir/contenir-qa-tools": "0.1.x-dev",
+        "infection/infection": "^0.34.1",
+        "phpunit/phpunit": "^11.5.42"
+    },
+    "conflict": {
+        "contenir/contenir-sitemap-laminas-mvc": "*",
+        "contenir/contenir-mvc-sitemap": "*"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/contenir/contenir-seo"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Contenir\\Seo\\Laminas\\Mvc\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Contenir\\Seo\\Laminas\\Mvc\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@static-analysis",
+            "@test",
+            "@test-integration",
+            "@mutation-test"
+        ],
+        "cs-check": [
+            "mago format --check",
+            "mago lint"
+        ],
+        "cs-fix": [
+            "mago format",
+            "mago lint --fix"
+        ],
+        "static-analysis": "mago analyze",
+        "test": "phpunit --colors=always --testsuite unit",
+        "test-integration": "phpunit --colors=always --testsuite integration",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "mutation-test": "infection"
+    },
+    "config": {
+        "platform": {
+            "php": "8.3.99"
+        },
+        "sort-packages": true,
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.1.x-dev"
+        },
+        "laminas": {
+            "module": "Contenir\\Seo\\Laminas\\Mvc"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
