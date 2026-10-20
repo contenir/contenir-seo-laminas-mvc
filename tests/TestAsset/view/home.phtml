@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle('Home');
+$this->headMeta()->setProperty('og:image', 'https://www.example.com/home.jpg');
+?>
+<head>
+<?= $this->seo()->head('page-nonce', home: true) ?>
+<?= $this->seo()->head('page-nonce', home: true) ?>
+<?= $this->headTitle() ?>
+
+<?= $this->headMeta() ?>
+
+</head>

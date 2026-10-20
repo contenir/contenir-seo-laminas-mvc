@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle('About us');
+$this->headMeta()->setName('description', 'Who we are');
+?>
+<head>
+<?= $this->seo()->head('page-nonce') ?>
+<?= $this->headTitle() ?>
+
+<?= $this->headMeta() ?>
+
+</head>
