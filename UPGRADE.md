@@ -1,13 +1,13 @@
 # Moving from contenir/contenir-sitemap-laminas-mvc
 
-contenir/seo-laminas-mvc replaces contenir/contenir-sitemap-laminas-mvc (formerly contenir/contenir-mvc-sitemap). The
+contenir/contenir-seo-laminas-mvc replaces contenir/contenir-sitemap-laminas-mvc (formerly contenir/contenir-mvc-sitemap). The
 two can't be installed together.
 
 1. Swap the packages:
 
    ```bash
    composer remove contenir/contenir-sitemap-laminas-mvc contenir/contenir-mvc-sitemap
-   composer require contenir/seo-laminas-mvc
+   composer require contenir/contenir-seo-laminas-mvc
    ```
 
 2. In `config/modules.config.php`, replace `Contenir\Mvc\Sitemap` with `Contenir\Seo\Laminas\Mvc`.
@@ -18,7 +18,7 @@ two can't be installed together.
    | Before | Now |
    |---|---|
    | `Contenir\Mvc\Sitemap\SitemapController` | `Contenir\Seo\Laminas\Mvc\Controller\SitemapController` |
-   | laminas-view's sitemap helper, with `changefreq` and `priority` | contenir/seo's writer: `lastmod` and images, no `changefreq` or `priority` |
+   | laminas-view's sitemap helper, with `changefreq` and `priority` | contenir/contenir-seo's writer: `lastmod` and images, no `changefreq` or `priority` |
    | one file, however large | an index of numbered pages past 50,000 URLs |
    | a `home` route needed for robots.txt | not needed |
 

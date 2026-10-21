@@ -54,7 +54,7 @@ final class Seo
      * @param ?bool   $home  Whether this is the home page; null asks whether the matched route is "home"
      *
      * @throws ViewException When the doctype does not allow a tag.
-     * @throws JsonException Never in practice; see contenir/seo's JsonLd.
+     * @throws JsonException Never in practice; see contenir/contenir-seo's JsonLd.
      */
     public function head(?string $nonce = null, ?bool $home = null): string
     {
