@@ -26,6 +26,11 @@ contenir/contenir-sitemap-laminas-mvc (SEO-2), keeping its `sitemap` and `robots
 - The default share image is measured when it is a file under the public directory, for `og:image:width` and
   `og:image:height`.
 
+### Changed
+
+- Requires contenir/seo `0.1.x-dev` (its main branch), now that the fix this adapter needed is merged there, instead
+  of that fix's branch.
+
 ### Kept from contenir-sitemap-laminas-mvc 2.2.0
 
 - `settings.site.sitemap.enabled` is honoured: off, `/sitemap.xml` answers 404 and robots.txt names no sitemap.
