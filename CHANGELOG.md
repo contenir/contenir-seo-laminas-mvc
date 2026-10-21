@@ -6,7 +6,7 @@ adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased] - 2026-10-21
 
-The Laminas MVC adapter for [contenir/seo](https://github.com/contenir/contenir-seo). It replaces
+The Laminas MVC adapter for [contenir/contenir-seo](https://github.com/contenir/contenir-seo). It replaces
 contenir/contenir-sitemap-laminas-mvc (SEO-2), keeping its `sitemap` and `robots` routes and the fixes from its
 2.2.0 release. See [UPGRADE.md](UPGRADE.md).
 
@@ -28,8 +28,11 @@ contenir/contenir-sitemap-laminas-mvc (SEO-2), keeping its `sitemap` and `robots
 
 ### Changed
 
-- Requires contenir/seo `0.1.x-dev` (its main branch), now that the fix this adapter needed is merged there, instead
-  of that fix's branch.
+- The package is named `contenir/contenir-seo-laminas-mvc`, after its repository, as Contenir's other libraries are.
+  Namespaces are unchanged.
+- Requires the library as contenir/contenir-seo `^0.1`, its new name, where it required contenir/seo `0.1.x-dev`. The
+  library was renamed and its v0.1.0 recut, so the old name no longer installs. It comes through a `vcs` repository
+  entry until it is on Packagist.
 
 ### Kept from contenir-sitemap-laminas-mvc 2.2.0
 

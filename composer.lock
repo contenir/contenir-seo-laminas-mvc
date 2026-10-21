@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "acd2aefb8d419d089fca601fc261dcad",
+    "content-hash": "51e05f4176c8ea398d1128bc36021a34",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -56,17 +56,17 @@
             "time": "2025-02-20T17:42:39+00:00"
         },
         {
-            "name": "contenir/seo",
-            "version": "dev-main",
+            "name": "contenir/contenir-seo",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:contenir/contenir-seo.git",
-                "reference": "2f6e76f917134f50168eca00eb718fa2a391fefa"
+                "reference": "17cdeb0c076ae71a2692a5a58e89712410403a54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contenir/contenir-seo/zipball/2f6e76f917134f50168eca00eb718fa2a391fefa",
-                "reference": "2f6e76f917134f50168eca00eb718fa2a391fefa",
+                "url": "https://api.github.com/repos/contenir/contenir-seo/zipball/17cdeb0c076ae71a2692a5a58e89712410403a54",
+                "reference": "17cdeb0c076ae71a2692a5a58e89712410403a54",
                 "shasum": ""
             },
             "require": {
@@ -78,7 +78,6 @@
                 "infection/infection": "^0.34.1",
                 "phpunit/phpunit": "^11.5.42"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -144,7 +143,7 @@
                 "issues": "https://github.com/contenir/contenir-seo/issues",
                 "source": "https://github.com/contenir/contenir-seo"
             },
-            "time": "2026-10-20T23:42:48+00:00"
+            "time": "2026-10-21T00:40:21+00:00"
         },
         {
             "name": "laminas/laminas-config",
@@ -5628,7 +5627,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "contenir/seo": 20,
         "contenir/contenir-qa-tools": 20
     },
     "prefer-stable": true,

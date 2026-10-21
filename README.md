@@ -1,9 +1,9 @@
-# contenir/seo-laminas-mvc
+# contenir/contenir-seo-laminas-mvc
 
 [![Continuous Integration](https://github.com/contenir/contenir-seo-laminas-mvc/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/contenir/contenir-seo-laminas-mvc/actions/workflows/continuous-integration.yml)
 [![codecov](https://codecov.io/gh/contenir/contenir-seo-laminas-mvc/graph/badge.svg)](https://codecov.io/gh/contenir/contenir-seo-laminas-mvc)
 
-The Laminas MVC adapter for [contenir/seo](https://github.com/contenir/contenir-seo). It serves a site's
+The Laminas MVC adapter for [contenir/contenir-seo](https://github.com/contenir/contenir-seo). It serves a site's
 `/sitemap.xml` and `/robots.txt`, adds an `seo()` view helper for the head, and hides staging and local copies from
 search engines.
 
@@ -20,7 +20,7 @@ It replaces contenir/contenir-sitemap-laminas-mvc and keeps its routes. See [UPG
 ## Install
 
 ```bash
-composer require contenir/seo-laminas-mvc
+composer require contenir/contenir-seo-laminas-mvc
 ```
 
 Add `Contenir\Seo\Laminas\Mvc` to the application's modules (laminas-component-installer offers to).
