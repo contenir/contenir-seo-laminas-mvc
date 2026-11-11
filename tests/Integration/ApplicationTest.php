@@ -17,6 +17,7 @@ use Laminas\Http\Request;
 use Laminas\Http\Response;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Navigation\Navigation;
 use Laminas\Router\Http\TreeRouteStack;
 use Laminas\Router\RouteMatch;
 use Laminas\ServiceManager\ServiceManager;
@@ -40,7 +41,7 @@ use const ENT_QUOTES;
 #[Group('integration')]
 final class ApplicationTest extends TestCase
 {
-    private static function application(string $url): Application
+    private static function application(string $url, bool $records = false): Application
     {
         $request = new Request();
         $request->setUri($url);
@@ -51,6 +52,7 @@ final class ApplicationTest extends TestCase
         $services->setService(SeoConfig::class, new SeoConfig(
             site: new SiteUrl('https://www.example.com'),
             visibility: Visibility::Automatic,
+            records: $records,
         ));
         $services->setService('Router', new TreeRouteStack());
         foreach ([
@@ -185,6 +187,22 @@ final class ApplicationTest extends TestCase
         static::assertStringNotContainsString(
             '"@type":"Article"',
             (new SeoFactory())($application->getServiceManager())()->head(),
+        );
+    }
+
+    #[Test]
+    public function namesBreadcrumbStepsFromTheSitesNavigation(): void
+    {
+        $application = self::application('https://www.example.com/stay/packages', records: true);
+        $services    = $application->getServiceManager();
+        $services->setService('cms', new Navigation([
+            ['label' => 'Stay', 'uri' => '/stay', 'pages' => [['label' => 'Packages', 'uri' => '/stay/packages']]],
+        ]));
+        $application->getMvcEvent()->setRouteMatch((new RouteMatch([]))->setMatchedRouteName('page-7'));
+
+        static::assertStringContainsString(
+            '"name":"Stay","item":"https://www.example.com/stay"',
+            (new SeoFactory())($services)()->head(),
         );
     }
 

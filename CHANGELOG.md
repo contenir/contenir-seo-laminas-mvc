@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- With the SEO add-on's records switch on, a page's breadcrumb trail names each step as the site's `cms` navigation
+  names it, and leaves out a step that is no page of the site: a `/project` that has no page of its own is no longer
+  linked. `NavigationPages::names()` gives the labels by address, and `RoutedPageNames` applies the switch and falls
+  back to naming each step from its path where the navigation cannot be read. With the switch off, or no `cms`
+  navigation, steps are named from the path as before.
+
 ## [0.3.0] - 2026-11-11
 
 ### Changed

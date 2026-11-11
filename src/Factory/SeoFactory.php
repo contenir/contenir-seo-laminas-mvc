@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Contenir\Seo\Laminas\Mvc\Factory;
 
+use Contenir\Seo\Laminas\Mvc\Controller\SitemapController;
+use Contenir\Seo\Laminas\Mvc\Sitemap\NavigationPages;
+use Contenir\Seo\Laminas\Mvc\Sitemap\RoutedPageNames;
 use Contenir\Seo\Laminas\Mvc\View\Helper\Seo;
 use Contenir\Seo\SeoConfig;
 use Laminas\Http\Request;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Navigation\AbstractContainer;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\View\Helper\HeadMeta;
 use Laminas\View\Helper\HeadTitle;
@@ -57,12 +61,18 @@ final class SeoFactory
     public function __invoke(ContainerInterface $container): Seo
     {
         $helpers = Services::get($container, 'ViewHelperManager', HelperPluginManager::class);
+        $config  = Services::get($container, SeoConfig::class, SeoConfig::class);
 
         return new Seo(
-            Services::get($container, SeoConfig::class, SeoConfig::class),
+            $config,
             $helpers->get(HeadTitle::class),
             $helpers->get(HeadMeta::class),
             self::event($container),
+            pages: $container->has(SitemapController::CONTAINER)
+                ? new RoutedPageNames($config, new NavigationPages(
+                    Services::get($container, SitemapController::CONTAINER, AbstractContainer::class),
+                ))
+                : null,
         );
     }
 }

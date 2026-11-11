@@ -135,7 +135,10 @@ return [
 ```
 
 `seo()->head()` adds the page's own node to the graph, of the schema type its `<seo>` block names, from the page
-metadata contenir-resource-laminas-mvc's `ResourceListener` sets on the event. `PageArticle::of($page)` gives any
+metadata contenir-resource-laminas-mvc's `ResourceListener` sets on the event. The breadcrumb trail names each step as the `cms` navigation container names it, and leaves out a step that is no page
+of the site, while the records switch is on.
+
+`PageArticle::of($page)` gives any
 `PageMetadata` as the `Article` that `head()` takes, for a page the listener doesn't route.
 
 ## Hiding a copy of the site

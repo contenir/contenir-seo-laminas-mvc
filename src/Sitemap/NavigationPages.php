@@ -17,6 +17,10 @@ use function array_values;
 use function date_create_immutable;
 use function is_array;
 use function is_string;
+use function parse_url;
+
+use const PHP_URL_HOST;
+use const PHP_URL_PATH;
 
 /**
  * Every page of a navigation container, hidden from the menu or not, as
@@ -68,6 +72,29 @@ final readonly class NavigationPages implements SitemapSourceInterface
     private static function text(mixed $value): ?string
     {
         return is_string($value) && '' !== $value ? $value : null;
+    }
+
+    /**
+     * The pages' labels by the path of their own address, as the site's navigation names them, for a breadcrumb
+     * trail. A page with no label, or at another host, is left out, and the first label of a path is kept.
+     *
+     * @return array<string, string>
+     */
+    public function names(): array
+    {
+        $names = [];
+        foreach (new RecursiveIteratorIterator($this->navigation, RecursiveIteratorIterator::SELF_FIRST) as $page) {
+            $href  = (string) $page->getHref();
+            $path  = parse_url($href, PHP_URL_PATH);
+            $label = self::text($page->getLabel());
+            if (null === $label || null !== parse_url($href, PHP_URL_HOST) || ! is_string($path) || '' === $path) {
+                continue;
+            }
+
+            $names[$path] ??= $label;
+        }
+
+        return $names;
     }
 
     /**

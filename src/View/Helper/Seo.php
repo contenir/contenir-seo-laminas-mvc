@@ -11,6 +11,7 @@ use Contenir\Seo\Head\HeadBuilder;
 use Contenir\Seo\Head\PageContext;
 use Contenir\Seo\JsonLd\Graph;
 use Contenir\Seo\Laminas\Mvc\PageArticle;
+use Contenir\Seo\Laminas\Mvc\Sitemap\RoutedPageNames;
 use Contenir\Seo\SeoConfig;
 use JsonException;
 use Laminas\Http\Request;
@@ -46,13 +47,17 @@ final class Seo
 {
     private ?Head $head = null;
 
+    private readonly Graph $graph;
+
     public function __construct(
         private readonly SeoConfig $config,
         private readonly HeadTitle $headTitle,
         private readonly HeadMeta $headMeta,
         private readonly MvcEvent $event,
-        private readonly Graph $graph = new Graph(),
-    ) {}
+        private readonly ?RoutedPageNames $pages = null,
+    ) {
+        $this->graph = new Graph();
+    }
 
     /**
      * The page's structured data, which head() adds its own nodes to.
@@ -101,6 +106,7 @@ final class Seo
             $this->hasMeta('og:image'),
             $request instanceof Request ? $request->getUri()->getPath() ?? '' : '',
             $article,
+            $this->pages?->names(),
         ));
 
         if ('' !== $head->title) {

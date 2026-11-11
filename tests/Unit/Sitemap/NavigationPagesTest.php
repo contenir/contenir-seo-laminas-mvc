@@ -65,4 +65,19 @@ final class NavigationPagesTest extends TestCase
             ),
         );
     }
+
+    #[Test]
+    public function namesPagesByThePathOfTheirOwnAddress(): void
+    {
+        $names = (new NavigationPages(new Navigation([
+            ['label' => 'Shop', 'uri' => 'https://shop.example.com/stay/shop'],
+            ['label' => 'Top', 'uri' => '#top'],
+            ['label' => '', 'uri' => '/unnamed'],
+            ['uri' => '/nameless'],
+            ['label' => 'Stay', 'uri' => '/stay', 'pages' => [['label' => 'Packages', 'uri' => '/stay/packages?x=1']]],
+            ['label' => 'Stay again', 'uri' => '/stay'],
+        ])))->names();
+
+        static::assertSame(['/stay' => 'Stay', '/stay/packages' => 'Packages'], $names);
+    }
 }
