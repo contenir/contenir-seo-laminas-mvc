@@ -104,7 +104,7 @@ with contenir-resource's `resourceMeta()`) and before `headTitle()` and `headMet
     <?= $this->headMeta() ?>
 ```
 
-`head()`:
+`head()` (its third argument takes the page as a `Contenir\Seo\Head\Article`, and `seo()->graph()` gives the JSON-LD graph it writes):
 
 - builds the title from the site's template ("About us | Example"), replacing headTitle's. Remove any hard-coded
   " | Site" suffix from the layout;

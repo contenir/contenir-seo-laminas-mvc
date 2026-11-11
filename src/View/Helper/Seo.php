@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Contenir\Seo\Laminas\Mvc\View\Helper;
 
+use Contenir\Seo\Head\Article;
 use Contenir\Seo\Head\Head;
 use Contenir\Seo\Head\HeadBuilder;
 use Contenir\Seo\Head\PageContext;
+use Contenir\Seo\JsonLd\Graph;
 use Contenir\Seo\SeoConfig;
 use JsonException;
 use Laminas\Http\Request;
@@ -28,7 +30,10 @@ use function in_array;
  * - adds og:site_name, a robots meta tag, the verification tags on the
  *   home page, and the default description and share image to a page
  *   without its own, through headMeta, which escapes them;
- * - returns the home page's JSON-LD script, to print where it is called.
+ * - returns the page's JSON-LD as one script element, to print where it is
+ *   called: the site's owner and the site on the home page, the article when
+ *   the page is one, and the breadcrumb trail elsewhere. graph() gives the
+ *   same graph, for a template to add its own nodes before it is printed.
  *
  * Open Graph tags use the "property" attribute, which headMeta only accepts
  * with an HTML5 or RDFa doctype.
@@ -44,31 +49,45 @@ final class Seo
         private readonly HeadTitle $headTitle,
         private readonly HeadMeta $headMeta,
         private readonly MvcEvent $event,
+        private readonly Graph $graph = new Graph(),
     ) {}
 
     /**
+     * The page's structured data, which head() adds its own nodes to.
+     */
+    public function graph(): Graph
+    {
+        return $this->graph;
+    }
+
+    /**
      * Applies the site's SEO to the head helpers, once per page, and
-     * returns the JSON-LD script ('' except on the home page).
+     * returns the page's JSON-LD script ('' when it has none).
      *
-     * @param ?string $nonce A CSP nonce for the JSON-LD script
-     * @param ?bool   $home  Whether this is the home page; null asks whether the matched route is "home"
+     * @param ?string  $nonce   A CSP nonce for the JSON-LD script
+     * @param ?bool    $home    Whether this is the home page; null asks whether the matched route is "home"
+     * @param ?Article $article The page as an article, when it is one
      *
      * @throws ViewException When the doctype does not allow a tag.
      * @throws JsonException Never in practice; see contenir/contenir-seo's JsonLd.
      */
-    public function head(?string $nonce = null, ?bool $home = null): string
+    public function head(?string $nonce = null, ?bool $home = null, ?Article $article = null): string
     {
         if (null === $this->head) {
-            $this->head = $this->apply($home ?? 'home' === $this->event->getRouteMatch()?->getMatchedRouteName());
+            $this->head = $this->apply(
+                $home ?? 'home' === $this->event->getRouteMatch()?->getMatchedRouteName(),
+                $article,
+            );
+            $this->graph->append(...$this->head->jsonLd);
         }
 
-        return $this->head->jsonLd?->script($nonce) ?? '';
+        return $this->graph->script($nonce);
     }
 
     /**
      * @throws ViewException When the doctype does not allow a tag.
      */
-    private function apply(bool $home): Head
+    private function apply(bool $home, ?Article $article): Head
     {
         $request = $this->event->getRequest();
         $head    = (new HeadBuilder($this->config))->build(new PageContext(
@@ -77,6 +96,8 @@ final class Seo
             $request instanceof Request ? (string) $request->getUri()->getHost() : '',
             $this->hasMeta('description'),
             $this->hasMeta('og:image'),
+            $request instanceof Request ? $request->getUri()->getPath() ?? '' : '',
+            $article,
         ));
 
         if ('' !== $head->title) {

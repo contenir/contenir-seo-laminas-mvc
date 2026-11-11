@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Contenir\Seo\Laminas\Mvc\Tests\Integration;
 
+use Contenir\Seo\Head\Article;
 use Contenir\Seo\Laminas\Mvc\Factory\SeoFactory;
 use Contenir\Seo\Laminas\Mvc\Module;
 use Contenir\Seo\Laminas\Mvc\Tests\TestAsset\NoListener;
@@ -85,6 +86,19 @@ final class ApplicationTest extends TestCase
     }
 
     #[Test]
+    public function describesAPageAsAnArticleWhenGivenOne(): void
+    {
+        $application = self::application('https://www.example.com/news/a-story');
+        $application->getMvcEvent()->setRouteMatch((new RouteMatch([]))->setMatchedRouteName('news'));
+
+        $head = (new SeoFactory())($application->getServiceManager())()->head(
+            article: new Article('https://www.example.com/news/a-story', 'A story'),
+        );
+
+        static::assertStringContainsString('"@type":"Article"', $head);
+    }
+
+    #[Test]
     public function findsTheHomePageByItsRoute(): void
     {
         $application = self::application('https://www.example.com/');
@@ -93,6 +107,16 @@ final class ApplicationTest extends TestCase
         $helper = (new SeoFactory())($application->getServiceManager());
 
         static::assertStringStartsWith('<script type="application/ld+json">', $helper()->head());
+    }
+
+    #[Test]
+    public function givesTheGraphTheHeadWritesTo(): void
+    {
+        $application = self::application('https://www.example.com/');
+        $helper      = (new SeoFactory())($application->getServiceManager())();
+        $helper->graph()->append(['@type' => 'Thing']);
+
+        static::assertStringContainsString('"@type":"Thing"', $helper->head(home: true));
     }
 
     #[Test]
@@ -109,15 +133,6 @@ final class ApplicationTest extends TestCase
             'noindex, nofollow',
             $response instanceof Response ? $response->getHeaders()->get('X-Robots-Tag')?->getFieldValue() : null,
         );
-    }
-
-    #[Test]
-    public function treatsOtherRoutesAsOtherPages(): void
-    {
-        $application = self::application('https://www.example.com/about');
-        $application->getMvcEvent()->setRouteMatch((new RouteMatch([]))->setMatchedRouteName('about'));
-
-        static::assertSame('', (new SeoFactory())($application->getServiceManager())()->head());
     }
 
     #[Test]
@@ -158,5 +173,17 @@ final class ApplicationTest extends TestCase
         (new SeoFactory())($services)()->head();
 
         static::assertSame('', $helpers->get('headMeta')->toString());
+    }
+
+    #[Test]
+    public function writesABreadcrumbTrailForOtherRoutes(): void
+    {
+        $application = self::application('https://www.example.com/about');
+        $application->getMvcEvent()->setRouteMatch((new RouteMatch([]))->setMatchedRouteName('about'));
+
+        static::assertStringContainsString(
+            '"@type":"BreadcrumbList"',
+            (new SeoFactory())($application->getServiceManager())()->head(),
+        );
     }
 }

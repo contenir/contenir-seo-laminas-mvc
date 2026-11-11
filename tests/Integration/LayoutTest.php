@@ -81,7 +81,7 @@ final class LayoutTest extends TestCase
     }
 
     #[Test]
-    public function addsTheDefaultsToAPageAndHidesACopy(): void
+    public function addsTheDefaultsAndABreadcrumbTrailToAPageAndHidesACopy(): void
     {
         $html = html_entity_decode(
             self::renderer(self::settings(), 'https://staging.example.com/about')->render('about'),
@@ -91,7 +91,7 @@ final class LayoutTest extends TestCase
         static::assertSame(
             <<<'HTML'
                 <head>
-                <title>About us | Example</title>
+                <script type="application/ld+json" nonce="page-nonce">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Example","item":"https://www.example.com/"},{"@type":"ListItem","position":2,"name":"About us","item":"https://www.example.com/about"}]}]}</script><title>About us | Example</title>
                 <meta name="description" content="Who we are">
                 <meta property="og:site_name" content="Example">
                 <meta name="robots" content="noindex, nofollow">

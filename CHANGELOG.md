@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased] - 2026-11-11
+
+### Changed
+
+- Requires contenir/contenir-seo `^0.9`. `seo()->head()` now writes the page's structured data as one JSON-LD graph:
+  the site's owner (from Office details) and the site on the home page, and a breadcrumb trail on every other page,
+  named from its path. `head()` takes the page as an `Article` as its third argument, which adds the article to the
+  graph, and `seo()->graph()` gives the graph for a template to add its own nodes before `head()` prints it.
+
 ## [Unreleased] - 2026-10-21
 
 The Laminas MVC adapter for [contenir/contenir-seo](https://github.com/contenir/contenir-seo). It replaces
