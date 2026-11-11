@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- `seo()->head()` takes the page as an article from the page metadata contenir-resource-laminas-mvc's
+  `ResourceListener` sets on the MvcEvent, where it isn't given one: a page whose metadata has a schema type, such as
+  the one its `<seo>` block names, or an article og:type, adds its node to the graph. An `Article` passed to `head()`
+  wins.
+
 ## [0.2.0] - 2026-11-11
 
 ### Changed

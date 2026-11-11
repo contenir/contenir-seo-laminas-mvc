@@ -134,7 +134,9 @@ return [
 ];
 ```
 
-`PageArticle::of($page)` gives a page's `PageMetadata` as the `Article` that `seo()->head()` takes.
+`seo()->head()` adds the page's own node to the graph, of the schema type its `<seo>` block names, from the page
+metadata contenir-resource-laminas-mvc's `ResourceListener` sets on the event. `PageArticle::of($page)` gives any
+`PageMetadata` as the `Article` that `head()` takes, for a page the listener doesn't route.
 
 ## Hiding a copy of the site
 

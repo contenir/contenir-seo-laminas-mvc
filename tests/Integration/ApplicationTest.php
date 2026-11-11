@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Contenir\Seo\Laminas\Mvc\Tests\Integration;
 
+use Contenir\Resource\Core\Metadata\PageMetadata;
 use Contenir\Seo\Head\Article;
 use Contenir\Seo\Laminas\Mvc\Factory\SeoFactory;
 use Contenir\Seo\Laminas\Mvc\Module;
@@ -86,6 +87,26 @@ final class ApplicationTest extends TestCase
     }
 
     #[Test]
+    public function anArticleGivenToHeadWinsOverTheRoutedMetadata(): void
+    {
+        $application = self::application('https://www.example.com/news/a-story');
+        $event       = $application->getMvcEvent();
+        $event->setRouteMatch((new RouteMatch([]))->setMatchedRouteName('page-5'));
+        $event->setParam(PageMetadata::class, new PageMetadata(
+            'https://www.example.com/news/a-story',
+            title: 'From metadata',
+            type: PageMetadata::ARTICLE,
+        ));
+
+        static::assertStringContainsString(
+            '"headline":"Given"',
+            (new SeoFactory())($application->getServiceManager())()->head(
+                article: new Article('https://www.example.com/news/a-story', 'Given'),
+            ),
+        );
+    }
+
+    #[Test]
     public function describesAPageAsAnArticleWhenGivenOne(): void
     {
         $application = self::application('https://www.example.com/news/a-story');
@@ -96,6 +117,24 @@ final class ApplicationTest extends TestCase
         );
 
         static::assertStringContainsString('"@type":"Article"', $head);
+    }
+
+    #[Test]
+    public function describesTheRoutedResourceAsAnArticleFromItsMetadata(): void
+    {
+        $application = self::application('https://www.example.com/news/a-story');
+        $event       = $application->getMvcEvent();
+        $event->setRouteMatch((new RouteMatch([]))->setMatchedRouteName('page-5'));
+        $event->setParam(PageMetadata::class, new PageMetadata(
+            'https://www.example.com/news/a-story',
+            title: 'A story',
+            type: PageMetadata::ARTICLE,
+        ));
+
+        static::assertStringContainsString(
+            '"@type":"Article"',
+            (new SeoFactory())($application->getServiceManager())()->head(),
+        );
     }
 
     #[Test]
@@ -132,6 +171,20 @@ final class ApplicationTest extends TestCase
         static::assertSame(
             'noindex, nofollow',
             $response instanceof Response ? $response->getHeaders()->get('X-Robots-Tag')?->getFieldValue() : null,
+        );
+    }
+
+    #[Test]
+    public function ignoresAnEventParameterThatIsNotPageMetadata(): void
+    {
+        $application = self::application('https://www.example.com/news/a-story');
+        $event       = $application->getMvcEvent();
+        $event->setRouteMatch((new RouteMatch([]))->setMatchedRouteName('page-5'));
+        $event->setParam(PageMetadata::class, 'not metadata');
+
+        static::assertStringNotContainsString(
+            '"@type":"Article"',
+            (new SeoFactory())($application->getServiceManager())()->head(),
         );
     }
 

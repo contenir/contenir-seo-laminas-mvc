@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Contenir\Seo\Laminas\Mvc\View\Helper;
 
+use Contenir\Resource\Core\Metadata\PageMetadata;
 use Contenir\Seo\Head\Article;
 use Contenir\Seo\Head\Head;
 use Contenir\Seo\Head\HeadBuilder;
 use Contenir\Seo\Head\PageContext;
 use Contenir\Seo\JsonLd\Graph;
+use Contenir\Seo\Laminas\Mvc\PageArticle;
 use Contenir\Seo\SeoConfig;
 use JsonException;
 use Laminas\Http\Request;
@@ -66,7 +68,8 @@ final class Seo
      *
      * @param ?string  $nonce   A CSP nonce for the JSON-LD script
      * @param ?bool    $home    Whether this is the home page; null asks whether the matched route is "home"
-     * @param ?Article $article The page as an article, when it is one
+     * @param ?Article $article The page as an article, when it is one; null takes it from the page metadata
+     *                          contenir-resource-laminas-mvc's ResourceListener set on the event, if any
      *
      * @throws ViewException When the doctype does not allow a tag.
      * @throws JsonException Never in practice; see contenir/contenir-seo's JsonLd.
@@ -76,7 +79,7 @@ final class Seo
         if (null === $this->head) {
             $this->head = $this->apply(
                 $home ?? 'home' === $this->event->getRouteMatch()?->getMatchedRouteName(),
-                $article,
+                $article ?? $this->routedArticle(),
             );
             $this->graph->append(...$this->head->jsonLd);
         }
@@ -125,6 +128,18 @@ final class Seo
         }
 
         return false;
+    }
+
+    /**
+     * The routed resource's page as an article, when its metadata gives it a schema type or an article og:type.
+     *
+     * @mago-expect analysis:mixed-assignment Event parameters are untyped; the type is checked here.
+     */
+    private function routedArticle(): ?Article
+    {
+        $page = $this->event->getParam(PageMetadata::class);
+
+        return $page instanceof PageMetadata ? PageArticle::of($page) : null;
     }
 
     /**
