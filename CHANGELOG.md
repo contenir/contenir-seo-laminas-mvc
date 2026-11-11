@@ -4,7 +4,7 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] - 2026-11-11
+## [0.2.0] - 2026-11-11
 
 ### Changed
 
@@ -29,7 +29,7 @@ adheres to [Semantic Versioning](https://semver.org/).
 
 - contenir/contenir-resource `^2.0.0-RC6` and contenir/contenir-db-model `^2.0.0-rc6`.
 
-## [Unreleased] - 2026-10-21
+## [0.1.0] - 2026-10-21
 
 The Laminas MVC adapter for [contenir/contenir-seo](https://github.com/contenir/contenir-seo). It replaces
 contenir/contenir-sitemap-laminas-mvc (SEO-2), keeping its `sitemap` and `robots` routes and the fixes from its
