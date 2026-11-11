@@ -18,6 +18,8 @@
     },
     "require": {
         "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
+        "contenir/contenir-db-model": "^2.0.0-rc6",
+        "contenir/contenir-resource": "^2.0.0-RC6",
         "contenir/contenir-seo": "^0.9",
         "laminas/laminas-eventmanager": "^3.14",
         "laminas/laminas-http": "^2.19",
@@ -30,6 +32,7 @@
     },
     "require-dev": {
         "contenir/contenir-qa-tools": "0.1.x-dev",
+        "php-db/phpdb-sqlite": "^0.2.0 || 0.3.x-dev",
         "infection/infection": "^0.34.1",
         "phpunit/phpunit": "^11.5.42"
     },

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Contenir\Seo\Laminas\Mvc\Tests\Unit;
 
+use Contenir\Resource\Core\Metadata\PageDefaultsInterface;
 use Contenir\Seo\Laminas\Mvc\ConfigProvider;
 use Contenir\Seo\Laminas\Mvc\Controller\SitemapController;
 use Contenir\Seo\Laminas\Mvc\Factory\HideFromSearchListenerFactory;
+use Contenir\Seo\Laminas\Mvc\Factory\SectionPageDefaultsFactory;
 use Contenir\Seo\Laminas\Mvc\Factory\SeoConfigFactory;
 use Contenir\Seo\Laminas\Mvc\Factory\SeoFactory;
 use Contenir\Seo\Laminas\Mvc\Factory\SitemapControllerFactory;
@@ -66,6 +68,7 @@ final class ConfigProviderTest extends TestCase
                 [
                     'factories' => [
                         SeoConfig::class              => SeoConfigFactory::class,
+                        PageDefaultsInterface::class  => SectionPageDefaultsFactory::class,
                         HideFromSearchListener::class => HideFromSearchListenerFactory::class,
                     ],
                 ],

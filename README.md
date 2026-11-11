@@ -117,6 +117,25 @@ The home page is the page whose matched route is `home`; pass `home: true` or `f
 `head()` again on the same page changes nothing more. Open Graph tags use the `property` attribute, which `headMeta`
 only accepts with an HTML5 or RDFa doctype: set `view_manager.doctype` to `HTML5`.
 
+## Per-record SEO
+
+With contenir-resource loaded, a record's page takes its title, description, share image, canonical address, robots
+directive and schema type from the `<seo>` block its type has in `config/admin.xml`, inside the section's
+`<extensions>`, and from the record's own overrides. `resourceMeta()` writes them; nothing else is needed on the site.
+What a block drives beyond the title, description and share image is switched on by the SEO add-on's records switch.
+
+```php
+return [
+    'contenir_seo' => [
+        'admin_xml'         => 'config/admin.xml',
+        'section_map_cache' => 'data/cache/contenir-seo-section-map.cache',
+        'asset_entity'      => Application\Model\Entity\AssetEntity::class,
+    ],
+];
+```
+
+`PageArticle::of($page)` gives a page's `PageMetadata` as the `Article` that `seo()->head()` takes.
+
 ## Hiding a copy of the site
 
 The SEO add-on's "Search engines" choice for this environment is kept in its local settings. Automatic, the default,

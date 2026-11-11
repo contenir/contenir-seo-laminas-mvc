@@ -13,6 +13,22 @@ adheres to [Semantic Versioning](https://semver.org/).
   named from its path. `head()` takes the page as an `Article` as its third argument, which adds the article to the
   graph, and `seo()->graph()` gives the graph for a template to add its own nodes before `head()` prints it.
 
+### Added
+
+- A record's page defaults from the `<seo>` block its type has in the site's `config/admin.xml`, read from the record's
+  own columns, the records it links to and its Section field, with the record's own overrides from its advanced
+  column. `Sections\SectionPageDefaults` is offered as `PageDefaultsInterface`, which contenir-resource's
+  `PageMetadataBuilder` uses, so `resourceMeta()` writes them. Settings in the `contenir_seo` configuration: `admin_xml`
+  (default `config/admin.xml`), `section_map_cache` (default `data/cache/contenir-seo-section-map.cache`, `false` to
+  turn it off) and `asset_entity`, the entity a site's assets are mapped with, to let a record's Section images stand in
+  for a share image. What the blocks drive beyond the title, description and share image waits for the SEO add-on's
+  records switch.
+- `PageArticle::of()` gives a page's metadata as the `Article` that `seo()->head()` takes.
+
+### Requires
+
+- contenir/contenir-resource `^2.0.0-RC6` and contenir/contenir-db-model `^2.0.0-rc6`.
+
 ## [Unreleased] - 2026-10-21
 
 The Laminas MVC adapter for [contenir/contenir-seo](https://github.com/contenir/contenir-seo). It replaces
