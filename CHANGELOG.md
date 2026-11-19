@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project
 adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+## [0.5.0] - 2026-11-20
+
+### Added
+
+- A page's main JSON-LD node is by its author, a `Person`, when its `PageMetadata` names one (`withAuthor()`).
+
+### Changed
+
+- Requires `contenir/contenir-resource` ^2.0.0-RC10 and `contenir/contenir-seo` ^0.10. Since contenir-seo 0.9.1, a
+  page with no share image of its own and no default one has `twitter:card` `summary` from the head, which wrote no
+  card before.
+
 ## [0.4.0] - 2026-11-11
 
 ### Added

@@ -14,6 +14,20 @@ use PHPUnit\Framework\TestCase;
 final class PageArticleTest extends TestCase
 {
     #[Test]
+    public function anArticleIsByThePagesAuthor(): void
+    {
+        static::assertSame(
+            'Jo Roca',
+            PageArticle::of(new PageMetadata(
+                'https://www.example.test/words/power/jo-roca',
+                title: 'Jo Roca',
+                type: PageMetadata::ARTICLE,
+                author: 'Jo Roca',
+            ))?->author,
+        );
+    }
+
+    #[Test]
     public function aPageOfTypeArticleIsDescribedAsAnArticle(): void
     {
         static::assertSame(
