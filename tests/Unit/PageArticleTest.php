@@ -16,14 +16,18 @@ final class PageArticleTest extends TestCase
     #[Test]
     public function anArticleIsByThePagesAuthor(): void
     {
+        $node = PageArticle::of(new PageMetadata(
+            'https://www.example.test/words/power/jo-roca',
+            title: 'Jo Roca',
+            type: PageMetadata::ARTICLE,
+            author: 'Jo Roca',
+            authorUrl: 'https://joroca.com',
+            authorProfiles: ['https://www.instagram.com/joroca'],
+        ));
+
         static::assertSame(
-            'Jo Roca',
-            PageArticle::of(new PageMetadata(
-                'https://www.example.test/words/power/jo-roca',
-                title: 'Jo Roca',
-                type: PageMetadata::ARTICLE,
-                author: 'Jo Roca',
-            ))?->author,
+            ['Jo Roca', 'https://joroca.com', ['https://www.instagram.com/joroca']],
+            [$node?->author, $node?->authorUrl, $node?->authorProfiles],
         );
     }
 
