@@ -10,7 +10,8 @@ use Contenir\Seo\Head\Article;
 /**
  * A page's main JSON-LD node from its metadata: of the schema type the site's
  * section map gives it, or an Article when its og:type is article, and none
- * when it has neither or no title. Pass it to seo()->head() as the article.
+ * when it has neither or no title, by the page's author when it names one.
+ * Pass it to seo()->head() as the article.
  *
  * @api
  */
@@ -32,6 +33,7 @@ final class PageArticle
             $page->published,
             $page->updated,
             $type,
+            $page->author,
         );
     }
 }

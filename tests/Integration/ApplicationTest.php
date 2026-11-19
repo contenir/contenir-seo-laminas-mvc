@@ -223,7 +223,7 @@ final class ApplicationTest extends TestCase
         (new SeoFactory())($services)()->head(home: false);
 
         static::assertSame(
-            '<meta name="robots" content="noindex, nofollow">',
+            '<meta name="robots" content="noindex, nofollow">' . "\n" . '<meta name="twitter:card" content="summary">',
             html_entity_decode($helpers->get('headMeta')->toString(), ENT_QUOTES | ENT_HTML5),
         );
     }
@@ -243,7 +243,10 @@ final class ApplicationTest extends TestCase
 
         (new SeoFactory())($services)()->head();
 
-        static::assertSame('', $helpers->get('headMeta')->toString());
+        static::assertSame(
+            '<meta name="twitter:card" content="summary">',
+            html_entity_decode($helpers->get('headMeta')->toString(), ENT_QUOTES | ENT_HTML5),
+        );
     }
 
     #[Test]

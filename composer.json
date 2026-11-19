@@ -19,8 +19,8 @@
     "require": {
         "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
         "contenir/contenir-db-model": "^2.0.0-rc6",
-        "contenir/contenir-resource": "^2.0.0-RC6",
-        "contenir/contenir-seo": "^0.9",
+        "contenir/contenir-resource": "^2.0.0-RC10",
+        "contenir/contenir-seo": "^0.10",
         "laminas/laminas-eventmanager": "^3.14",
         "laminas/laminas-http": "^2.19",
         "laminas/laminas-mvc": "^3.8",
